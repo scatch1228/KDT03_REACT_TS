@@ -1,32 +1,31 @@
-import React from 'react'
 import TailBall from './TailBall'
 import { useState } from 'react';
 import TailButton from '../components/TailButton';
 
 export default function Lotto() {
-  let [tags, setTags] = useState([]);
-  let [tags1, setTags1] = useState([]);
-  let [bonus, setBonus] = useState();
+  let [tags, setTags] = useState<React.ReactElement[]>([]);
+  let [tags1, setTags1] = useState<React.ReactElement[]>([]);
+  let [bonus, setBonus] = useState<React.ReactElement>();
 
   const rd = () => {
     tags.length >= 6 ? tags.length=0 : console.log("go");
     setTags([]);
     console.log(tags.length);
     
-    let nums = new Set([]);
-    while (nums.size < 7) {
+    let numSet : Set<number> = new Set([]);
+    while (numSet.size < 7) {
       let n = Math.floor(Math.random() * 45 + 1);
-      nums.add(n);
-      console.log(nums);
+      numSet.add(n);
+      console.log(numSet);
     }
-    nums = Array.from(nums);
+    let nums : number[] = Array.from(numSet);
 
-    let tags1 = nums.map(num => <TailBall key={num} props={num} number={num}/>);
+    let tags1 = nums.map(num => <TailBall key={num} n={num}/>);
     setTags1(tags1);
 
 
     for(const num of nums) {
-      tags.push(<TailBall key={num} props={num} number={num}/>);
+      tags.push(<TailBall key={num} n={num}/>);
       setTags(tags);
       console.log(tags);
     }

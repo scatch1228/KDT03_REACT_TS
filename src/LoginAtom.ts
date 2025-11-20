@@ -1,3 +1,4 @@
 import { atom } from "jotai";
+import type {Atom} from 'jotai';
 
-export const loggedin = atom(false);
+export const loggedin : Atom<boolean> = atom(false);

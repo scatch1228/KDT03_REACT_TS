@@ -3,12 +3,19 @@ import TodoInput from "./TodoInput"
 import TodoItem from "./TodoItem"
 import {supabase} from "../supabase/client"
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
+//const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+//const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
+
+export interface TodoType{
+  id:string,
+  completed:boolean,
+  text:string
+}
+
 export default function TodoList() {
-  const [todo, setTodo] = useState([]);
-  const [items, setItems] = useState([]);
-  const [comp, setComp] = useState([]);
+  const [todo, setTodo] = useState<TodoType[]>([]);
+  const [items, setItems] = useState<React.ReactElement[]>([]);
+  const [comp, setComp] = useState<TodoType[]>([]);
 
   //============= GET METHOD================
   const getTodo = async () => {
@@ -31,12 +38,17 @@ export default function TodoList() {
   }, [])
 
   useEffect(() => {
-    setItems(todo.map(d => <TodoItem key={d.id} todo={d} getTodo={getTodo}/>))
+    setItems(todo.map(d => <TodoItem key={d.id} todo={d} getTodo={getTodo}/>));
+    setComp(todo.filter(d => d.completed==true ));
   }, [todo])
 
   useEffect(()=>{
     console.log('items = ',items);
   },[items])
+
+  useEffect(()=>{
+    console.log('comp.len = ',comp.length);
+  },[comp])
   //=============useEffects END==========
 
   return (

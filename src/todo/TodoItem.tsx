@@ -1,10 +1,16 @@
 import TailButton from "../components/TailButton";
-import { useState, useEffect } from "react";
-import { supabase } from "../supabase/client"
+import { useState } from "react";
+import { supabase } from "../supabase/client";
+import type {TodoType} from "./TodoList";
 
-export default function TodoItem({ todo, getTodo }) {
+interface TodoItemProps{
+    todo:TodoType,
+    getTodo:()=>void
+}
+
+export default function TodoItem({ todo, getTodo }:TodoItemProps) {
     const [isEdit, setIsEdit] = useState(false);
-    const [editText, setEditText] = useState(todo.text);
+    const [editText, setEditText] = useState<string>(todo.text);
 
     const handleToggle = async () => {
         const { error } = await supabase
@@ -53,7 +59,7 @@ export default function TodoItem({ todo, getTodo }) {
     }
 
     return (
-        <div className="flex flex-row border-1 border-gray-300 items-center justify-between">
+        <div className="flex flex-row border border-gray-300 items-center justify-between">
             <div className="w-8/10 flex flex-row">
                 <input type="checkbox" checked={todo.completed} onChange={handleToggle} className="mx-5" />
                 {
